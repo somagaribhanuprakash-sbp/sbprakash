@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: opstrack-api
+    env: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: gunicorn app:app --chdir backend --bind 0.0.0.0:$PORT
+    envVars:
+      - key: OPSTRACK_TOKEN
+        sync: false
+      - key: OPSTRACK_CORS_ORIGIN
+        value: "*"
+    disk:
+      name: opstrack-data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1
